@@ -30,3 +30,19 @@ variable "source_ami_owner" {
     EOD
   default     = "309956199498"
 }
+
+variable "instance_type" {
+  type        = string
+  description = <<-EOD
+    The AWS instance type to use for the AppDB Instances.
+    EOD
+  default     = "m5.large"
+}
+
+variable "region" {
+  type        = string
+  description = <<-EOD
+    The AWS region to use for the AppDB Instances.
+    EOD
+  default     = "us-east-1"
+}

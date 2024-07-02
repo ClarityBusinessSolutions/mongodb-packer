@@ -1,14 +1,22 @@
-# Main packer configuration for the MongoDB Ops Manager AMI
+# Main packer configuration for the MongoDB Automation Agegent AMI
+packer {
+  required_plugins {
+    amazon = {
+      version = ">= 1.2.8"
+      source  = "github.com/hashicorp/amazon"
+    }
+  }
+}
 
 locals {
   # Use a common timestamp throughout
   ts = timestamp()
-  # Timestamp formatted for use in AMI Name
+  # Timestamp formatted for use in the AMI Name
   name_ts = formatdate("YYYY.MM.DD.hh.mm", local.ts)
 }
 
 data "amazon-ami" "rhel-8" {
-  filters = {
+  filters =  {
     name                = var.source_ami_name
     root-device-type    = "ebs"
     virtualization-type = "hvm"
@@ -27,14 +35,15 @@ source "amazon-ebs" "mongodb-ops-manager" {
   shutdown_behavior = "terminate"
 
   ami_name = "mongodb-ops-manager-${var.ops_manager_version}-image-${local.name_ts}"
+
   ami_description = join(" ", [
-    "MongoDB Ops Manager AMI."
+    "MongoDB Automation Agent AMI."
   ])
 
   tags = {
-    "Name"  = "MongoDB Ops Manager"
+    "Name"  = "MongoDB Automation Agent"
     "description" = join(" ", [
-      "MongoDB Ops Manager AMI."
+      "MongoDB Automation Agent AMI."
     ])
     "build_time"        = local.ts
     "io.packer.version" = packer.version
@@ -46,8 +55,6 @@ source "amazon-ebs" "mongodb-ops-manager" {
     "source_ami.owner.name" = "{{ .SourceAMIOwnerName }}"
 
     # Software versions
-    "com.mongodb.db_tools.version"          = "5.0.11"
-    "com.mongodb.enterprise_server.version" = "5.0.11"
     "com.mongodb.ops_manager.version"       = var.ops_manager_version
   }
 
@@ -88,7 +95,7 @@ build {
     destination = "/tmp/"
   }
 
-   provisioner "file" {
+  provisioner "file" {
     source      = "./resources/"
     destination = "/tmp/"
   }
@@ -99,18 +106,22 @@ build {
       "sudo cloud-init status --wait || true"
     ]
   }
+
   provisioner "shell" {
     script = "../shared/scripts/upgrade"
   }
+
   provisioner "shell" {
     script = "../shared/scripts/kernel_config"
   }
+
   provisioner "shell" {
     environment_vars = [
       "OPS_MANAGER_VERSION=${var.ops_manager_version}"
     ]
     script = "./scripts/initial_download"
   }
+
   provisioner "shell" {
     script = "./scripts/install_software"
   }

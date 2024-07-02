@@ -69,7 +69,7 @@ The following table contains a description of the variables in the AppDB's [vari
 
 | Variable | Description | Default Value |
 |----------|----------|----------|
-| mongodb_major_version | The major version of MongoDB Database to install. See [MongoDB Releases](https://www.mongodb.com/try/download/enterprise-advanced/releases) for all current releases and [Archived Releases](https://www.mongodb.com/try/download/enterprise-advanced/releases/archive) for all archived rleases. | 7.0 |
+| mongodb_major_version | The major version of MongoDB Database to install. See [MongoDB Releases](https://www.mongodb.com/try/download/enterprise-advanced/releases) for all current releases and [Archived Releases](https://www.mongodb.com/try/download/enterprise-advanced/releases/archive) for all archived rleases. | 6.0 |
 | mongodb_patch_version | The patch release of MongoDB to install | 8 |
 | db_tools_version | The version of MongoDB tools to install | 100.7.5 |
 | source_ami_name | Glob that will be used to search for the source AMI Name. The most recent match will be used | RHEL-8*_HVM-*-x86_64-*-Hourly2-GP2 |
