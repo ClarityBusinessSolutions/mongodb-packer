@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Kernel parameter tuning for MongoDB
+# See each referenced file under `resources/` for details
+set -euo pipefail
+
+# Force running as root
+# This prevents us from having to rewrite execute_command
+if (( "$(id -u)" != 0 )); then
+  exec sudo "$(readlink -f "$0")"
+fi
+
+install -d /etc/sysctl.d -D -o root -g root -m 0755
+install -t /etc/sysctl.d -D -o root -g root -m 0644 /tmp/sysctl.d/*
+
+install -d /etc/limits.d -D -o root -g root -m 0755
+install -t /etc/limits.d -D -o root -g root -m 0644 /tmp/limits.d/*
+
+cat << 'ENDSCRIPT' | sudo tee /etc/systemd/system/disable-transparent-huge-pages.service
+[Unit]
+Description=Disable Transparent Huge Pages (THP)
+DefaultDependencies=no
+After=sysinit.target local-fs.target
+Before=mongod.service
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo never | tee /sys/kernel/mm/transparent_hugepage/enabled > /dev/null'
+[Install]
+WantedBy=basic.target
+ENDSCRIPT
+
+chmod 755 /etc/systemd/system/disable-transparent-huge-pages.service
+
+systemctl daemon-reload
+systemctl start disable-transparent-huge-pages
+systemctl enable disable-transparent-huge-pages
+

@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Install MongoDB and Ops Manager
+set -euo pipefail
+
+# Force running as root
+# This prevents us from having to rewrite execute_command
+if (( "$(id -u)" != 0 )); then
+  exec sudo "$(readlink -f "$0")"
+fi
+
+# Run everything in a temporary directory
+tmpdir=$(mktemp -d)
+cd "${tmpdir}"
+
+_cleanup_tmpdir() {
+  if [[ -n "${tmpdir}" && -d "${tmpdir}" ]]; then
+    cd /  # Ensure we are not in the temp dir
+    rm -rf -- "${tmpdir}"
+  fi
+}
+
+trap _cleanup_tmpdir EXIT
+
+yum -y install \
+       checkpolicy \
+       cyrus-sasl \
+       cyrus-sasl-gssapi \
+       cyrus-sasl-plain \
+       git-core \
+       krb5-libs \
+       libcurl \
+       make \
+       net-snmp \
+       numactl \
+       openldap \
+       openssl \
+       policycoreutils \
+       selinux-policy-devel \
+       xz-libs
+
+yum install -y mongodb-enterprise-${MONGODB_MAJOR_VERSION}.${MONGODB_PATCH_VERSION} \
+               mongodb-enterprise-database-${MONGODB_MAJOR_VERSION}.${MONGODB_PATCH_VERSION} \
+               mongodb-enterprise-server-${MONGODB_MAJOR_VERSION}.${MONGODB_PATCH_VERSION} \
+               mongodb-enterprise-mongos-${MONGODB_MAJOR_VERSION}.${MONGODB_PATCH_VERSION} \
+               mongodb-enterprise-tools-${MONGODB_MAJOR_VERSION}.${MONGODB_PATCH_VERSION}
+
+systemctl enable mongod
