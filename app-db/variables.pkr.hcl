@@ -52,9 +52,9 @@ variable "source_ami_owner" {
 variable "instance_type" {
   type        = string
   description = <<-EOD
-    The AWS instance type to use for the AppDB Instances.
+    The AWS instance type to use to build the AppDB Instances.
     EOD
-  default     = "t3.medium"
+  default     = "m5.large"
 }
 
 variable "region" {

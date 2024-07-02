@@ -48,7 +48,7 @@ The following table contains a description of the variables in the AppDB's [vari
 | db_tools_version | The version of MongoDB tools to install | 100.7.5 |
 | source_ami_name | Glob that will be used to search for the source AMI Name. The most recent match will be used | RHEL-8*_HVM-*-x86_64-*-Hourly2-GP2 |
 | source_ami_owner | AWS account ID that owns the source AMI. The default is the account ID for certified RedHat images. | 309956199498 |
-| instance_type | The AWS instance type to use to build the AppDB Instances. | t3.large |
+| instance_type | The AWS instance type to use to build the AppDB Instances. | m5.large |
 | region | The AWS region to use for the AppDB Instances. | us-east-1 |
 
 ### Ops Manager Customization
@@ -60,7 +60,8 @@ The following table contains a description of the variables in the AppDB's [vari
 | ops_manager_version | The version of MongoDB Ops Manager to install.  See [Ops Manager Versions](https://www.mongodb.com/try/download/ops-manager) for all available versions. | 7.0.8 |
 | source_ami_name | Glob that will be used to search for the source AMI Name. The most recent match will be used | RHEL-8*_HVM-*-x86_64-*-Hourly2-GP2 |
 | source_ami_owner | AWS account ID that owns the source AMI. The default is the account ID for certified RedHat images. | 309956199498 |
-| instance_type | The AWS instance type to use to build the AppDB Instances. | t3.large |
+| instance_type | The AWS instance type to use to build the AppDB Instances. | m5.large |
+| region | The AWS region to use for the AppDB Instances. | us-east-1 |
 
 ### MongoDB Agent
 
@@ -73,6 +74,6 @@ The following table contains a description of the variables in the AppDB's [vari
 | db_tools_version | The version of MongoDB tools to install | 100.7.5 |
 | source_ami_name | Glob that will be used to search for the source AMI Name. The most recent match will be used | RHEL-8*_HVM-*-x86_64-*-Hourly2-GP2 |
 | source_ami_owner | AWS account ID that owns the source AMI. The default is the account ID for certified RedHat images. | 309956199498 |
-| instance_type | The AWS instance type to use to build the AppDB Instances. | t3.large |
+| instance_type | The AWS instance type to use to build the AppDB Instances. | m5.large |
 | region | The AWS region to use for the AppDB Instances. | us-east-1 |
 

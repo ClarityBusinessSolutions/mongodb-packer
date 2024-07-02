@@ -21,8 +21,8 @@ data "amazon-ami" "rhel-8" {
 source "amazon-ebs" "mongodb-ops-manager" {
   source_ami        = data.amazon-ami.rhel-8.id
   ssh_username      = "ec2-user"
-  instance_type     = "t3.medium"
-  region            = "us-east-1"
+  instance_type     = var.instance_type
+  region            = var.region
   ebs_optimized     = true
   shutdown_behavior = "terminate"
 

@@ -43,7 +43,7 @@ variable "instance_type" {
   description = <<-EOD
     The AWS instance type to use for the AppDB Instances.
     EOD
-  default     = "t3.large"
+  default     = "m5.large"
 }
 
 variable "region" {
